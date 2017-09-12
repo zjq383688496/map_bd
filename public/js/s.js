@@ -10,6 +10,8 @@
 		cd:  [104.073, 30.668, '成都'],
 		heb: [126.639, 45.768, '哈尔滨'],
 		cc:  [125.323, 43.823, '长春'],
+		fz:  [119.305, 26.083, '福州'],
+		hf:  [117.295, 31.865, '合肥'],
 	}
 
 	global.VUE = new Vue(WD.extend(VM, {
@@ -52,6 +54,7 @@
 			// MAP API功能
 			bdm: function(list) {
 				var me = this,
+					zoom = me.map? me.map.getZoom(): 12,
 					map = me.map = new BMap.Map('allmap')		// 创建Map实例
 				map.clearOverlays()
 
@@ -76,7 +79,7 @@
 					marker.setLabel(label)
 					me.addClickHandler(li.name, marker, li)
 				}
-				map.centerAndZoom(new BMap.Point(me.pos.lng, me.pos.lat), map.getZoom() < 4? 12: map.getZoom())
+				map.centerAndZoom(new BMap.Point(me.pos.lng, me.pos.lat), zoom)
 
 				map.removeEventListener('click', me.showInfo)
 				map.addEventListener('click', me.showInfo)
