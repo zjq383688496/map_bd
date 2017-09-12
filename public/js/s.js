@@ -32,22 +32,6 @@
 			list: []
 		},
 		methods: {
-			init: function() {
-				
-			},
-			handleSubmit: function() {
-				this.$refs['formValidate'].validate(function(v) {
-					if (v) {
-						WD.http.post('/mail/add', VUE.formValidate, function(o) {
-							VUE.$Message.success('提交成功!')
-						}, function(err) {
-							VUE.$Message.warning(err.message)
-						});
-					} else {
-						VUE.$Message.error('表单验证失败!')
-					}
-				})
-			},
 			getList: function() {
 				var me = this
 				WD.http.get('/s/list', this.pos, function(o) {
@@ -62,9 +46,6 @@
 			},
 			// MAP API功能
 			bdm: function(list) {
-				function showInfo(e){
-					alert(e.point.lng + ', ' + e.point.lat)
-				}
 				var me = this,
 					map = me.map = new BMap.Map('allmap')		// 创建Map实例
 				map.clearOverlays()
@@ -90,10 +71,10 @@
 					marker.setLabel(label)
 					me.addClickHandler(li.name, marker, li)
 				}
-				map.centerAndZoom(new BMap.Point(POS[me.city][0], POS[me.city][1]), 12)
+				map.centerAndZoom(new BMap.Point(me.pos.lng, me.pos.lat), 12)
 
-				map.removeEventListener('click', showInfo)
-				map.addEventListener('click', showInfo)
+				map.removeEventListener('click', me.showInfo)
+				map.addEventListener('click', me.showInfo)
 			},
 			addClickHandler: function(content, marker, data) {
 				var me = this
@@ -128,6 +109,13 @@
 						VUE.$Message.warning(err.message)
 					})
 				}
+			},
+			showInfo: function(e) {
+				var me = this
+				// alert(e.point.lng + ', ' + e.point.lat)
+				me.pos.lng = e.point.lng
+				me.pos.lat = e.point.lat
+				me.getList()
 			}
 		},
 		watch: {
