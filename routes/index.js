@@ -50,28 +50,33 @@ router.post('/s/sign', (req, res, next) => {
 	if (dealerId && storeLongitude && storeLatitude) {
 		// body.presentLongitude = re(storeLongitude)
 		// body.presentLatitude  = re(storeLatitude)
-		body.presentLongitude = storeLongitude
-		body.presentLatitude  = storeLatitude
-		body.bpId = '0007264245'
-		body.userName = 'ZJQ383688496'
-		body.type = '1'
-		body.t = moment().format('YYYY_MM_DD_HH_mm_ss')
+		var op = {
+			dealerId:         dealerId,
+			storeLongitude:   storeLongitude,
+			storeLatitude:    storeLatitude,
+			presentLongitude: storeLongitude,
+			presentLatitude:  storeLatitude,
+			bpId:             '0007264245',
+			userName:         'ZJQ383688496',
+			type:             '1',
+			t:                moment().format('YYYY_MM_DD_HH_mm_ss')
+		}
 		var str = []
-		for (var p in body) {
-			str.push(p + '=' + body[p])
+		for (var p in op) {
+			str.push(p + '=' + op[p])
 		}
 		var opts  = {
 			url: config.api.s + '/sign?' + str.join('&'),
 			json: true,
 			headers: {
-				// 'Referer': query.referer,
-				'User-Agent': 'SonyApp/4.4.1 (iPhone; iOS 10.2.1; Scale/2.00)',
-				'Cookie': 'saplb_*=(J2EE322943820)322943850; TLTUID=0A6402080000015E73B3ED6D00007449'
-			},
-			'Cookie': 'saplb_*=(J2EE322943820)322943850; TLTUID=0A6402080000015E73B3ED6D00007449'
+				'User-Agent': 'SonyApp/4.4.1 (iPhone; iOS 10.2.1; Scale/2.00)'
+			}
+			// 'Cookie': 'saplb_*=(J2EE322943820)322943850; TLTUID=0A6402080000015E73B3ED6D00007449'
 		}
-		console.log(body)
+		console.log('================== API ==================')
 		console.log(opts.url)
+		console.log('================== DATA ==================')
+		console.log(op)
 		request.get(opts, function (err, response, data) {
 			if (!err) {
 				res.send({
@@ -88,7 +93,15 @@ router.post('/s/sign', (req, res, next) => {
 	}
 })
 
-// config.api.s + '/sign?dealerId=11dd790be96140b392dfd4d2e7026075&bpId=0007264245&userName=ZJQ383688496&storeLongitude=121.466928&storeLatitude=31.223389&presentLongitude=121.505118&presentLatitude=31.355102&t='+moment().format('YYYY_MM_DD_HH_mm_ss')
-
+// {
+// 	dealerId=e2c75bd85e574dce8568b58510a3509e,
+// 	bpId=0007264245,
+// 	userName=ZJQ383688496,
+// 	storeLongitude=121.484617,
+// 	storeLatitude=31.276780,
+// 	presentLongitude=121.508177,
+// 	presentLatitude=31.357151,
+// 	t=2017_09_12_18_01_34
+// }
 
 module.exports = router
