@@ -24,7 +24,7 @@
 			<ul class="store">
 				<li v-for="(item, idx) in list">
 					<div class="img-prev" :style="item.imgURL? 'background-image: url('+item.imgURL+')': ''" @click="imgPrev(item)"></div>
-					<a @click="sign(item)">{{idx + ': ' + item.name}}</a>
+					<a @click="sign(item)">{{(idx+1) + ': ' + item.name}}</a>
 				</li>
 			</ul>
 		</div>
@@ -53,7 +53,7 @@ width="460"
 <style>
 #allmap {
 	width:  100%;
-	height: 400px;
+	height: 600px;
 	margin: 0;
 	overflow: hidden
 }
