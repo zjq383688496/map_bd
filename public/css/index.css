@@ -1,0 +1,55 @@
+.popular-stores {
+	margin: 24px 0 0;
+	padding-bottom: 10px;
+}
+.coupon {
+	position: relative;
+	background-color: #fff;
+	margin-bottom: 10px;
+	overflow: hidden;
+	border-radius: 4px;
+	opacity: .8;
+	transition: all ease .2s;
+}
+.coupon:hover {
+	opacity: 1;
+	transform: translateY(-6px);
+	box-shadow: 0 2px 2px rgba(0,0,0,.1);
+}
+/*.coupon:hover::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	z-index: -1;
+	display: block;
+	width: 100%;
+	height: 64px;
+	transform: translateY(-64px);
+	animation: tranX ease .6s;
+	background: -webkit-linear-gradient(top, transparent 0%, #fff 50%, transparent 100%);
+}*/
+.coupon.coupon-column {
+	margin-bottom: 25px;
+	text-align: center;
+}
+.coupon .coupon-inner {
+	display: block;
+	padding: 40px 20px;
+	color: #000;
+	font-weight: 700;
+	text-shadow: 1px 1px 0 rgba(255,255,255,.8);
+}
+
+/*@keyframes tranX {
+	0%   {
+		opacity: 0;
+		transform: translateY(100px);
+	}
+	50% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+		transform: translateY(-64px);
+	}
+}*/

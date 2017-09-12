@@ -1,0 +1,151 @@
+/* global */
+html, body {
+	width: 100%;
+	height: 100%;
+}
+body {
+	font-family: '微软雅黑', 'Open Sans', sans-serif;
+	color: #333;
+	line-height: 20px;
+	overflow-x: hidden;
+	font-size: 16px;
+}
+ul {
+	padding: 0;
+}
+a:hover {
+	text-decoration: none;
+}
+pre {
+	white-space: pre-wrap;
+	max-height: 300px;
+	overflow-y: auto;
+}
+
+/* common */
+.container h3 {
+	margin-bottom: 20px;
+}
+frame::-webkit-scrollbar {
+	width: 6px;
+}
+frame::-webkit-scrollbar-thumb {
+	background-color: #2da5ff;
+	border-radius: 6px;
+	box-shadow: -1px 1px 2px rgba(46, 149, 254, .4);
+}
+
+/* header */
+.navbar {
+	padding: 15px;
+	background-color: #2e95fe;
+	color: #fff;
+	border-radius: 0;
+	border: 0;
+	box-shadow: 0 1px 6px rgba(46, 149, 254, .4);
+}
+.navbar-header {
+	position: relative;
+	display: block;
+	width: 100%;
+	font-size: 24px;
+	text-align: center;
+}
+.navbar-btn-left,
+.navbar-btn-right {
+	position: absolute;
+	top: 0;
+	z-index: 1;
+	display: block;
+	width: 60px;
+	height: 50px;
+	line-height: 44px;
+	color: #fff;
+	font-size: 32px;
+	text-align: center;
+}
+.navbar-btn-left:hover,
+.navbar-btn-right:hover {
+	color: #fff;
+	// background: #
+}
+.navbar-btn-left {
+	left: 0;
+}
+.navbar-btn-right {
+	right: 0;
+}
+
+/* wrapper */
+.wrapper {
+	position: absolute;
+	top: 50px;
+	right: 0;
+	bottom: 0px;
+	left: 0;
+	width: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+	padding-bottom: 20px;
+	-webkit-overflow-scrolling: touch;
+}
+.wrapper::-webkit-scrollbar {
+	width: 6px;
+}
+.wrapper::-webkit-scrollbar-thumb {
+	background-color: #2da5ff;
+	border-radius: 6px;
+	box-shadow: -1px 1px 2px rgba(46, 149, 254, .4);
+}
+.container {
+	max-width: 1200px;
+	padding-right: 15px;
+	padding-left: 15px;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+/* footer */
+.footer {
+    font-family: arial;
+    text-align: center;
+    color: #000;
+    font-weight: bold;
+    pointer-events: none;
+}
+.footer p {
+    font-size: 24px;
+    margin: 0;
+}
+.footer b {
+    font-weight: 800;
+    color: #000;
+}
+.footer span {
+    font-size: 12px;
+    color: #777;
+    font-weight: 100;
+}
+
+/* form */
+.form-body .ico-must::before {
+	content: '·';
+	font-size: 16px;
+	color: #fd4d4f;
+	margin-right: 8px;
+	overflow: hidden;
+}
+
+/* iview */
+.ivu-form .ivu-form-item-label {
+	font-size: 16px;
+}
+.ivu-radio-wrapper {
+	font-size: 14px;
+}
+.ivu-input {
+	height: 36px;
+}
+.ivu-form-item-content {
+	line-height: 36px;
+}

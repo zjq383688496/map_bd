@@ -1,0 +1,50 @@
+{% extends 'globel/layout.html' %}
+
+{% block body %}
+<div class="row">
+	<div class="col-md-12">
+		<h3>工具</h3>
+	</div>
+	<ul class="popular-stores clearfix">
+		<div class="col-md-3 col-sm-6 col-xs-12">
+			<div class="coupon coupon-column">
+				<a class="coupon-inner" href="/s">打法</a>
+			</div>
+		</div>
+	</ul>
+</div>
+
+
+
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="/css/index.css">
+{% endblock %}
+
+{% block js %}
+<script>
+
+(function() {
+	var idx = {
+		init: function() {
+			this.$coupon = $('.coupon')
+			this._color = Math.floor(Math.random()*360)
+			this.each(this)
+		},
+		each: function(me) {
+			this.$coupon.each(function(i, e) {
+				$(e).css({
+					backgroundColor: me.color()
+				})
+			})
+		},
+		color: function() {
+			this._color += 80;
+			return 'hsl('+this._color+', 90%, 70%)'
+		}
+	}
+	idx.init()
+}())
+</script>
+{% endblock %}

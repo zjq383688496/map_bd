@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% include "head-vue.html" ignore missing %}
+	{% block css %}{% endblock %}
+</head>
+<body>
+	{% include "header.html" ignore missing %}
+
+	<div class="wrapper">
+		<div id="vApp" class="container">
+		{% block body %}{% endblock %}
+		</div>
+	</div>
+
+	{% include "footer.html" ignore missing %}
+	{% include "script-vue.html" ignore missing %}
+	{% block js %}{% endblock %}
+</body>
+</html>

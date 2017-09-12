@@ -1,0 +1,69 @@
+{% extends 'globel/layout-vue.html' %}
+
+{% block body %}
+
+<div id="allmap"></div>
+
+<div class="row">
+	<div class="col-md-8 col-md-offset-1">
+		<div class="panel-body">
+			<div class="form-body">
+				<i-form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="160">
+					<Form-item label="地点" prop="env">
+						<Radio-group v-model="city">
+							<Radio label="bg">北京</Radio>
+							<Radio label="sh">上海</Radio>
+							<Radio label="gz">广州</Radio>
+							<Radio label="sz">深圳</Radio>
+						</Radio-group>
+					</Form-item>
+					<Form-item label="当前坐标">
+						<span>{{pos.lng + ', ' + pos.lat}}</span>
+					</Form-item>
+					<Form-item label="名称">
+						<i-input v-model="formValidate.name"></i-input>
+					</Form-item>
+					<Form-item>
+						<i-button type="primary" @click="handleSubmit()">提交</i-button>
+					</Form-item>
+				</i-form>
+				<hr>
+			</div>
+
+			<ul class="store">
+				<li v-for="(item, idx) in list" @click="sign(item)">
+					<a>{{idx + ': ' + item.name}}</a>
+				</li>
+			</ul>
+		</div>
+
+	</div>
+</div>
+
+{% endblock %}
+
+{% block css %}
+<style>
+#allmap {
+	width:  100%;
+	height: 400px;
+	margin: 0;
+	overflow: hidden
+}
+.store {
+	width: 100%;
+}
+.store li {
+	padding: 10px;
+	border: 1px solid #fff;
+}
+.store li:hover {
+	border: 1px solid #ddd;
+}
+</style>
+{% endblock %}
+
+{% block js %}
+<script src="//api.map.baidu.com/api?v=2.0&ak=[[config.bmk]]"></script>
+<script src="/js/s.js"></script>
+{% endblock %}
