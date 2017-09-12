@@ -1,17 +1,22 @@
 (function(global, VM, WD) {
 	var API = '/user/getUserList'
 	var POS = {
-		bg: [116.404, 39.915],	// 北京
-		sh: [121.479, 31.235],	// 上海
-		gz: [113.269, 23.137],	// 广州
-		sz: [114.061, 22.552],	// 深圳
-		wh: [114.310, 30.600],	// 武汉
-		cq: [106.556, 29.570],	// 重启
-		cd: [104.073, 30.668],	// 成都
+		bg:  [116.404, 39.915, '北京'],
+		sh:  [121.479, 31.235, '上海'],
+		gz:  [113.269, 23.137, '广州'],
+		sz:  [114.061, 22.552, '深圳'],
+		wh:  [114.310, 30.600, '武汉'],
+		cq:  [106.556, 29.570, '重启'],
+		cd:  [104.073, 30.668, '成都'],
+		heb: [126.639, 45.768, '哈尔滨'],
+		cc:  [125.323, 43.823, '长春'],
 	}
 
 	global.VUE = new Vue(WD.extend(VM, {
 		data: {
+			POS: POS,
+			modal: false,
+			storeInfo: {},
 			city: 'sh',
 			pos: {
 				lng: POS.sh[0],
@@ -95,9 +100,9 @@
 				me.map.openInfoWindow(infoWindow, point)	//开启信息窗口
 			},
 			sign: function(o) {
+				var me = this
 				if (confirm('确认签到吗?')) {
-					var me  = this,
-						opt = {
+					var opt = {
 							id: o.id,
 							longitude: o.longitude,
 							latitude:  o.latitude
@@ -116,6 +121,10 @@
 				me.pos.lng = e.point.lng
 				me.pos.lat = e.point.lat
 				me.getList()
+			},
+			imgPrev: function(o) {
+				this.storeInfo = o
+				this.modal = true
 			}
 		},
 		watch: {

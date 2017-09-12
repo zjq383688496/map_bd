@@ -71,7 +71,6 @@ router.post('/s/sign', (req, res, next) => {
 			headers: {
 				'User-Agent': 'SonyApp/4.4.1 (iPhone; iOS 10.2.1; Scale/2.00)'
 			}
-			// 'Cookie': 'saplb_*=(J2EE322943820)322943850; TLTUID=0A6402080000015E73B3ED6D00007449'
 		}
 		console.log('================== API ==================')
 		console.log(opts.url)

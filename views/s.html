@@ -5,43 +5,47 @@
 <div id="allmap"></div>
 
 <div class="row">
-	<div class="col-md-8 col-md-offset-1">
+	<div class="col-md-12">
 		<div class="panel-body">
 			<div class="form-body">
 				<i-form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="160">
 					<Form-item label="地点" prop="env">
 						<Radio-group v-model="city">
-							<Radio label="bg">北京</Radio>
-							<Radio label="sh">上海</Radio>
-							<Radio label="gz">广州</Radio>
-							<Radio label="sz">深圳</Radio>
-							<Radio label="wh">武汉</Radio>
-							<Radio label="cq">重庆</Radio>
-							<Radio label="cd">成都</Radio>
+							<Radio v-for="(item, key) in POS" :label="key">{{item[2]}}</Radio>
 						</Radio-group>
 					</Form-item>
 					<Form-item label="当前坐标">
 						<span>{{pos.lng + ', ' + pos.lat}}</span>
-					</Form-item>
-					<Form-item label="名称">
-						<i-input v-model="formValidate.name"></i-input>
-					</Form-item>
-					<Form-item>
-						<i-button type="primary" @click="handleSubmit()">提交</i-button>
 					</Form-item>
 				</i-form>
 				<hr>
 			</div>
 
 			<ul class="store">
-				<li v-for="(item, idx) in list" @click="sign(item)">
-					<a>{{idx + ': ' + item.name}}</a>
+				<li v-for="(item, idx) in list">
+					<div class="img-prev" :style="item.imgURL? 'background-image: url('+item.imgURL+')': ''" @click="imgPrev(item)"></div>
+					<a @click="sign(item)">{{idx + ': ' + item.name}}</a>
 				</li>
 			</ul>
 		</div>
 
 	</div>
 </div>
+
+<Modal
+v-model="modal"
+:title="storeInfo.name"
+class-name="vertical-center-modal"
+width="460"
+>
+	<img :style="storeInfo.imgURL? 'background-image:url(/img/img-default.png)': 'background-size: cover;'" :src="storeInfo.imgURL" :alt="storeInfo.name">
+	<p>店名: {{storeInfo.shopName + storeInfo.mstCategory? ' - ' + storeInfo.mstCategory.name: ''}}</p>
+	<p>地址: {{storeInfo.address}}</p>
+	<p>营业时间: {{storeInfo.businessHour}}</p>
+	<p>联系电话: {{storeInfo.phone}}</p>
+	<p>喜欢人数: <span style="color:red">{{storeInfo.likeCount}}</span></p>
+	<div slot="footer"></div>
+</Modal>
 
 {% endblock %}
 
@@ -53,15 +57,46 @@
 	margin: 0;
 	overflow: hidden
 }
+img {
+	display: block;
+	width: 100%;
+}
 .store {
 	width: 100%;
 }
 .store li {
+	display: block;
 	padding: 10px;
 	border: 1px solid #fff;
+	overflow: hidden;
 }
 .store li:hover {
 	border: 1px solid #ddd;
+}
+.store li a {
+	float: left;
+	margin-left: 10px;
+	line-height: 40px;
+}
+.store li .img-prev {
+	float: left;
+	width: 60px;
+	height: 40px;
+	background: url(/img/img-default.png) #fff center no-repeat;
+	background-size: cover;
+}
+.vertical-center-modal{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.ivu-modal{
+	top: 0;
+}
+.ivu-modal-body p {
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 24px;
 }
 </style>
 {% endblock %}
