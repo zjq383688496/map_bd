@@ -71,7 +71,7 @@
 					marker.setLabel(label)
 					me.addClickHandler(li.name, marker, li)
 				}
-				map.centerAndZoom(new BMap.Point(me.pos.lng, me.pos.lat), 12)
+				map.centerAndZoom(new BMap.Point(me.pos.lng, me.pos.lat), map.getZoom() < 4? 12: map.getZoom())
 
 				map.removeEventListener('click', me.showInfo)
 				map.addEventListener('click', me.showInfo)
