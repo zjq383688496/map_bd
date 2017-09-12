@@ -93,15 +93,6 @@ router.post('/s/sign', (req, res, next) => {
 	}
 })
 
-// {
-// 	dealerId=e2c75bd85e574dce8568b58510a3509e,
-// 	bpId=0007264245,
-// 	userName=ZJQ383688496,
-// 	storeLongitude=121.484617,
-// 	storeLatitude=31.276780,
-// 	presentLongitude=121.508177,
-// 	presentLatitude=31.357151,
-// 	t=2017_09_12_18_01_34
-// }
+// /like?dealerId=e2c75bd85e574dce8568b58510a3509e&mark=270037CF-0D25-4DF2-8FF5-10495E0678CE&channel=2&t=2017_09_12_17_35_02
 
 module.exports = router

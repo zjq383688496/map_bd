@@ -1,10 +1,13 @@
 (function(global, VM, WD) {
 	var API = '/user/getUserList'
 	var POS = {
-		bg: [116.404, 39.915],
-		sh: [121.479, 31.235],
-		gz: [113.269, 23.137],
-		sz: [114.061, 22.552]
+		bg: [116.404, 39.915],	// 北京
+		sh: [121.479, 31.235],	// 上海
+		gz: [113.269, 23.137],	// 广州
+		sz: [114.061, 22.552],	// 深圳
+		wh: [114.310, 30.600],	// 武汉
+		cq: [106.556, 29.570],	// 重启
+		cd: [104.073, 30.668],	// 成都
 	}
 
 	global.VUE = new Vue(WD.extend(VM, {
@@ -66,6 +69,8 @@
 					map = me.map = new BMap.Map('allmap')		// 创建Map实例
 				map.clearOverlays()
 
+				map.addControl(new BMap.NavigationControl({anchor: BMAP_ANCHOR_TOP_RIGHT, type: BMAP_NAVIGATION_CONTROL_SMALL}))
+
 				for(var i = 0; i < list.length; i++){
 					var li = list[i]
 					var marker = new BMap.Marker(new BMap.Point(li.longitude, li.latitude))
@@ -87,8 +92,8 @@
 				}
 				map.centerAndZoom(new BMap.Point(POS[me.city][0], POS[me.city][1]), 12)
 
-				// map.removeEventListener('click', showInfo)
-				// map.addEventListener('click', showInfo)
+				map.removeEventListener('click', showInfo)
+				map.addEventListener('click', showInfo)
 			},
 			addClickHandler: function(content, marker, data) {
 				var me = this
