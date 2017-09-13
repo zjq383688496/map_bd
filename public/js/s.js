@@ -104,6 +104,7 @@
 			imgPrev: function(o) {
 				this.storeInfo = o
 				this.modal = true
+				console.log(o)
 			}
 		},
 		watch: {

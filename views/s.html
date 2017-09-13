@@ -42,7 +42,8 @@ class-name="vertical-center-modal"
 width="460"
 >
 	<img :style="storeInfo.imgURL? 'background-image:url(/img/img-default.png)': 'background-size: cover;'" :src="storeInfo.imgURL" :alt="storeInfo.name">
-	<p>店名: {{storeInfo.shopName + storeInfo.mstCategory? ' - ' + storeInfo.mstCategory.name: ''}}</p>
+	<p>店名: {{storeInfo.shopName}}</p>
+	<p>类型: {{storeInfo.mstCategory? storeInfo.mstCategory.name: ''}}</p>
 	<p>地址: {{storeInfo.address}}</p>
 	<p>营业时间: {{storeInfo.businessHour}}</p>
 	<p>联系电话: {{storeInfo.phone}}</p>

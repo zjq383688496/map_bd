@@ -103,5 +103,8 @@ router.post('/s/sign', (req, res, next) => {
 })
 
 // /like?dealerId=e2c75bd85e574dce8568b58510a3509e&mark=270037CF-0D25-4DF2-8FF5-10495E0678CE&channel=2&t=2017_09_12_17_35_02
-
+// dealerId	4028ab555920f4b7015920f4d683001e
+// mark	270037CF-0D25-4DF2-8FF5-10495E0678CE
+// channel	2
+// t	2017_09_13_22_29_01
 module.exports = router
