@@ -12,7 +12,8 @@
 				lat: ''
 			},
 			map: null,
-			list: []
+			list: [],
+			sall: true
 		},
 		methods: {
 			getWprov: function(me) {
@@ -80,20 +81,42 @@
 					})		// 创建信息窗口对象
 				me.map.openInfoWindow(infoWindow, point)	//开启信息窗口
 			},
+			signAjax: function(item, idx) {
+				var opt = {
+						id: item.id,
+						longitude: item.longitude,
+						latitude:  item.latitude
+					}
+				WD.http.post('/s/sign', opt, function(o) {
+					console.log(o)
+					VUE.$Message.success((idx? idx + ' - ': '') + item.name + ' - ' + o.resultMsg)
+				}, function(err) {
+					VUE.$Message.warning(err.message)
+				})
+			},
 			sign: function(o) {
 				var me = this
 				if (confirm('确认签到吗?')) {
-					var opt = {
-							id: o.id,
-							longitude: o.longitude,
-							latitude:  o.latitude
-						}
-					WD.http.post('/s/sign', opt, function(o) {
-						console.log(o)
-						VUE.$Message.success(o.resultMsg)
-					}, function(err) {
-						VUE.$Message.warning(err.message)
-					})
+					me.signAjax(o)
+				}
+			},
+			signAll: function() {
+				var me  = this,
+					li  = me.list,
+					len = li.length,
+					t   = 2000
+				if (!me.sall) return VUE.$Message.warning('签到中, 请稍后...')
+				me.sall = false
+				if (confirm('确认签到所有吗?')) {
+					for (let i = 0; i < len; i++) {
+						setTimeout(function() {
+							me.signAjax(li[i], i+1)
+						}, t * i)
+					}
+					setTimeout(function() {
+						me.sall = true
+						VUE.$Message.success('签到所有商店!')
+					}, t * len)
 				}
 			},
 			showInfo: function(e) {
