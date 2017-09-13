@@ -39,7 +39,7 @@
 
 				map.clearOverlays()
 				map.centerAndZoom(new BMap.Point(list[0].longitude, list[0].latitude), zoom)
-				// map.addControl(new BMap.NavigationControl({ anchor: BMAP_ANCHOR_TOP_RIGHT, type: BMAP_NAVIGATION_CONTROL_SMALL }))
+				map.addControl(new BMap.NavigationControl({ anchor: BMAP_ANCHOR_TOP_RIGHT, type: BMAP_NAVIGATION_CONTROL_SMALL }))
 
 				for(var i = 0; i < list.length; i++){
 					var li = list[i]
