@@ -12,30 +12,40 @@ function render(path, opts) {
 router.get('/',  render('index'))
 
 router.get('/s', render('s'))
-router.get('/s/list', (req, res, next) => {
-	var query = req.query,
-		lng   = query.lng,
-		lat   = query.lat
-
-	if (lng && lat) {
-		var opts  = {
-			url: config.api.s + '/comp?longitude='+lng+'&latitude='+lat+'&type=1&t='+moment().format('YYYY_MM_DD_HH_mm_ss'),
-			json: true,
-		}
-		request.get(opts, function (err, response, data) {
-			if (!err) {
-				res.send({
-					code: '0000',
-					data: data
-				})
-			} else {
-				res.send(err)
-			}
-		})
-		// next()
-	} else {
-		next()
+router.get('/s/wprov', (req, res, next) => {
+	var api = config.api.s + req.originalUrl.substr(2)
+	var opts  = {
+		url: api
 	}
+	request.get(opts, function (err, response, data) {
+		if (!err) {
+			res.send(data)
+		} else {
+			res.send(err)
+		}
+	})
+})
+router.get('/s/list', (req, res, next) => {
+	var opts  = {
+		url: config.api.s + '/comp?channel=web',
+		form: {
+			type: '2',
+			strs: '',
+			provinceId: req.query.id
+		},
+		// url: config.api.s + '/comp?longitude='+lng+'&latitude='+lat+'&type=1&t='+moment().format('YYYY_MM_DD_HH_mm_ss'),
+		json: true
+	}
+	request.post(opts, function (err, response, data) {
+		if (!err) {
+			res.send({
+				code: '0000',
+				data: data
+			})
+		} else {
+			res.send(err)
+		}
+	})
 })
 
 function re(str) {

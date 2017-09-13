@@ -8,10 +8,10 @@
 	<div class="col-md-12">
 		<div class="panel-body">
 			<div class="form-body">
-				<i-form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="160">
-					<Form-item label="地点" prop="env">
-						<Radio-group v-model="city">
-							<Radio v-for="(item, key) in POS" :label="key">{{item[2]}}</Radio>
+				<i-form :label-width="160">
+					<Form-item label="省份">
+						<Radio-group v-model="provId">
+							<Radio v-for="(item, idx) in prov" :label="item.id">{{item.name}}</Radio>
 						</Radio-group>
 					</Form-item>
 					<Form-item label="当前坐标">

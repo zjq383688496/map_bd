@@ -1,61 +1,31 @@
 (function(global, VM, WD) {
 	var API = '/user/getUserList'
-	var POS = {
-		bg:  [116.404, 39.915, '北京'],
-		sh:  [121.479, 31.235, '上海'],
-		gz:  [113.269, 23.137, '广州'],
-		sz:  [114.061, 22.552, '深圳'],
-		ng:  [118.802, 32.065, '南京'],
-		hz:  [120.149, 30.277, '杭州'],
-		wh:  [114.310, 30.600, '武汉'],
-		cq:  [106.556, 29.570, '重庆'],
-		cd:  [104.073, 30.668, '成都'],
-		heb: [126.639, 45.768, '哈尔滨'],
-		cc:  [125.323, 43.823, '长春'],
-		fz:  [119.305, 26.083, '福州'],
-		hf:  [117.295, 31.865, '合肥'],
-		xm:  [118.096, 24.485, '厦门'],
-		lz:  [103.842, 36.067, '兰州'],
-		xa:  [108.920, 34.318, '西安'],
-		jn:  [117.116, 36.666, '济南'],
-		sjz: [114.513, 38.061, '石家庄'],
-		zz:  [113.630, 34.760, '郑州'],
-		sy:  [123.454, 41.812, '沈阳'],
-		cs:  [112.888, 28.237, '长沙'],
-	}
 
 	global.VUE = new Vue(WD.extend(VM, {
 		data: {
-			POS: POS,
 			modal: false,
 			storeInfo: {},
-			city: 'sh',
+			prov: [],		// 省份列表
+			provId: null,
 			pos: {
-				lng: POS.sh[0],
-				lat: POS.sh[1]
-			},
-			formValidate: {
-				name: '',
-				env: 'dev',
-				service: '',
-				email: '',
-				host: '',
-				port: '',
-				pass: ''
-			},
-			ruleValidate: {
+				lng: '',
+				lat: ''
 			},
 			map: null,
 			list: []
 		},
 		methods: {
-			getList: function() {
-				var me = this
-				WD.http.get('/s/list', this.pos, function(o) {
+			getWprov: function(me) {
+				$.getJSON('/s/wprov?callback=?', function(o) {
+					me.prov = o.resultData
+				})
+			},
+			getList: function(me) {
+				WD.http.get('/s/list', { id: me.provId }, function(o) {
 					o = o.resultData
 					me.list = o || []
 					console.log(o)
-					me.bdm(me.list)
+					if (me.list.length) me.bdm(me.list)
 					VUE.$Message.success('获取成功!')
 				}, function(err) {
 					VUE.$Message.warning(err.message)
@@ -64,11 +34,12 @@
 			// MAP API功能
 			bdm: function(list) {
 				var me = this,
-					zoom = me.map? me.map.getZoom(): 12,
-					map = me.map = new BMap.Map('allmap')		// 创建Map实例
-				map.clearOverlays()
+					zoom = me.map? me.map.getZoom(): 13,
+					map  = me.map = new BMap.Map('allmap')		// 创建Map实例
 
-				map.addControl(new BMap.NavigationControl({anchor: BMAP_ANCHOR_TOP_RIGHT, type: BMAP_NAVIGATION_CONTROL_SMALL}))
+				map.clearOverlays()
+				map.centerAndZoom(new BMap.Point(list[0].longitude, list[0].latitude), zoom)
+				// map.addControl(new BMap.NavigationControl({ anchor: BMAP_ANCHOR_TOP_RIGHT, type: BMAP_NAVIGATION_CONTROL_SMALL }))
 
 				for(var i = 0; i < list.length; i++){
 					var li = list[i]
@@ -76,20 +47,17 @@
 					map.addOverlay(marker)
 					var label = new BMap.Label(i+1)
 					label.setStyle({
-						// width:       '40px',
-						height :     '30px',
-						lineHeight:  '20px',
-						color :      '#fff',
-						border:      0,
-						background:  'none',
-						fontSize :   '12px',
-						textAlign:   'center',
-						fontFamily:  '微软雅黑'
+						color: '#fff',
+						backgroundImage: 'none',
+						border: 'none',
+						backgroundColor: 'transparent',
+						marginTop: '1px',
+						marginLeft: '1px'
 					})
+					var content = '<div style=\"font-size:14px;\">'+li.name+'<br>地址：'+li.address+'</div>'
 					marker.setLabel(label)
-					me.addClickHandler(li.name, marker, li)
+					me.addClickHandler(content, marker, li)
 				}
-				map.centerAndZoom(new BMap.Point(me.pos.lng, me.pos.lat), zoom)
 
 				map.removeEventListener('click', me.showInfo)
 				map.addEventListener('click', me.showInfo)
@@ -106,8 +74,8 @@
 					point      = new BMap.Point(p.getPosition().lng, p.getPosition().lat),
 					infoWindow = new BMap.InfoWindow(content, {
 						width : 250,		// 信息窗口宽度
-						height: 80,			// 信息窗口高度
-						title : '信息窗口',	// 信息窗口标题
+						height: 100,		// 信息窗口高度
+						title : '店铺介绍',	// 信息窗口标题
 						enableMessage: true	//设置允许信息窗发送短息
 					})		// 创建信息窗口对象
 				me.map.openInfoWindow(infoWindow, point)	//开启信息窗口
@@ -130,10 +98,8 @@
 			},
 			showInfo: function(e) {
 				var me = this
-				// alert(e.point.lng + ', ' + e.point.lat)
 				me.pos.lng = e.point.lng
 				me.pos.lat = e.point.lat
-				me.getList()
 			},
 			imgPrev: function(o) {
 				this.storeInfo = o
@@ -141,16 +107,17 @@
 			}
 		},
 		watch: {
-			city: function(v) {
-				var me = this,
-					p  = POS[v]
-				me.pos.lng = p[0]
-				me.pos.lat = p[1]
-				me.getList()
+			prov: function(v) {
+				if (v.length) {
+					this.provId = v[0].id
+				}
+			},
+			provId: function(v) {
+				this.getList(this)
 			}
 		},
 		mounted: function() {
-			this.getList()
+			this.getWprov(this)
 		}
 	}))
 
