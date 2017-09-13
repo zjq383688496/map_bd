@@ -2,13 +2,23 @@
 
 {% block body %}
 
-<div id="allmap"></div>
+<div class="map_list">
+	<div id="allmap"></div>
+	<div class="map_list_ul">
+		<ul class="store">
+			<li v-for="(item, idx) in list">
+				<div class="img-prev" :style="item.imgURL? 'background-image: url('+item.imgURL+')': ''" @click="imgPrev(item)"></div>
+				<a @click="sign(item)">{{(idx+1) + ': ' + item.name}}</a>
+			</li>
+		</ul>
+	</div>
+</div>
 
 <div class="row">
 	<div class="col-md-12">
 		<div class="panel-body">
 			<div class="form-body">
-				<i-form :label-width="160">
+				<i-form :label-width="80">
 					<Form-item label="省份">
 						<Radio-group v-model="provId">
 							<Radio v-for="(item, idx) in prov" :label="item.id">{{item.name}}</Radio>
@@ -20,13 +30,6 @@
 				</i-form>
 				<hr>
 			</div>
-
-			<ul class="store">
-				<li v-for="(item, idx) in list">
-					<div class="img-prev" :style="item.imgURL? 'background-image: url('+item.imgURL+')': ''" @click="imgPrev(item)"></div>
-					<a @click="sign(item)">{{(idx+1) + ': ' + item.name}}</a>
-				</li>
-			</ul>
 		</div>
 
 	</div>
@@ -51,11 +54,32 @@ width="460"
 
 {% block css %}
 <style>
+.ivu-form-item {
+	margin-bottom: 0;
+}
+.ivu-form-item-content {
+	line-height: 26px;
+}
+.ivu-form .ivu-form-item-label {
+	padding: 5px 12px 5px 0
+}
+.map_list {
+	width: 1100px;
+}
 #allmap {
-	width:  100%;
-	height: 600px;
+	float: left;
+	width: 632px;
+	height: 470px;
 	margin: 0;
 	overflow: hidden
+}
+.map_list_ul {
+	float: left;
+	width: 458px;
+	height: 470px;
+	margin-left: 10px;
+	overflow-x: hidden;
+	overflow-y: auto
 }
 .store {
 	width: 100%;
