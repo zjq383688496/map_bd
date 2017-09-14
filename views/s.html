@@ -25,9 +25,9 @@
 							<Radio v-for="(item, idx) in prov" :label="item.id">{{item.name}}</Radio>
 						</Radio-group>
 					</Form-item>
-					<Form-item label="当前坐标">
+					<!-- <Form-item label="当前坐标">
 						<span>{{pos.lng + ', ' + pos.lat}}</span>
-					</Form-item>
+					</Form-item> -->
 				</i-form>
 				<hr>
 			</div>
@@ -70,16 +70,16 @@ width="460"
 }
 #allmap {
 	float: left;
-	width: 632px;
-	height: 470px;
+	width: 650px;
+	height: 500px;
 	margin: 0;
 	overflow: hidden
 }
 .map_list_ul {
 	position: relative;
 	float: left;
-	width: 458px;
-	height: 470px;
+	width: 440px;
+	height: 500px;
 	margin-left: 10px;
 	overflow-x: hidden;
 	overflow-y: auto

@@ -30,12 +30,13 @@ router.get('/s/list', (req, res, next) => {
 		url: config.api.s + '/comp?channel=web',
 		form: {
 			type: '2',
-			strs: '',
-			provinceId: req.query.id
+			strs: ''
 		},
 		// url: config.api.s + '/comp?longitude='+lng+'&latitude='+lat+'&type=1&t='+moment().format('YYYY_MM_DD_HH_mm_ss'),
 		json: true
 	}
+	if (req.query.id) opts.form.provinceId = req.query.id
+	console.log(opts)
 	request.post(opts, function (err, response, data) {
 		if (!err) {
 			res.send({
@@ -47,7 +48,6 @@ router.get('/s/list', (req, res, next) => {
 		}
 	})
 })
-
 function re(str) {
 	return str.match(/^\d+\.\d{5}/)[0] + (Math.floor(Math.random()*10)+'')
 }
@@ -107,4 +107,5 @@ router.post('/s/sign', (req, res, next) => {
 // mark	270037CF-0D25-4DF2-8FF5-10495E0678CE
 // channel	2
 // t	2017_09_13_22_29_01
+
 module.exports = router

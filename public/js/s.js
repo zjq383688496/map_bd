@@ -18,6 +18,7 @@
 		methods: {
 			getWprov: function(me) {
 				$.getJSON('/s/wprov?callback=?', function(o) {
+					o.resultData.unshift({id: '', name: '全部'})
 					me.prov = o.resultData
 				})
 			},
@@ -26,7 +27,9 @@
 					o = o.resultData
 					me.list = o || []
 					console.log(o)
-					if (me.list.length) me.bdm(me.list)
+					if (me.list.length) {
+						me.bdm(me.list)
+					}
 					VUE.$Message.success('获取成功!')
 				}, function(err) {
 					VUE.$Message.warning(err.message)
@@ -34,15 +37,16 @@
 			},
 			// MAP API功能
 			bdm: function(list) {
-				var me = this,
+				var me   = this,
+					len  = list.length,
 					zoom = me.map? me.map.getZoom(): 13,
 					map  = me.map = new BMap.Map('allmap')		// 创建Map实例
-
+				if (len > 100) zoom = 5
 				map.clearOverlays()
 				map.centerAndZoom(new BMap.Point(list[0].longitude, list[0].latitude), zoom)
 				map.addControl(new BMap.NavigationControl({ anchor: BMAP_ANCHOR_TOP_RIGHT, type: BMAP_NAVIGATION_CONTROL_SMALL }))
 
-				for(var i = 0; i < list.length; i++){
+				for(var i = 0; i < len; i++){
 					var li = list[i]
 					var marker = new BMap.Marker(new BMap.Point(li.longitude, li.latitude))
 					map.addOverlay(marker)
@@ -91,7 +95,7 @@
 					console.log(o)
 					VUE.$Message.success((idx? idx + ' - ': '') + item.name + ' - ' + o.resultMsg)
 				}, function(err) {
-					VUE.$Message.warning(err.message)
+					// VUE.$Message.warning(err.message)
 				})
 			},
 			sign: function(o) {
