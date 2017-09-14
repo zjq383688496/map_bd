@@ -39,9 +39,10 @@
 			bdm: function(list) {
 				var me   = this,
 					len  = list.length,
-					zoom = me.map? me.map.getZoom(): 13,
+					// zoom = me.map? me.map.getZoom(): 13,
+					zoom =  len > 100? 5: 13,
 					map  = me.map = new BMap.Map('allmap')		// 创建Map实例
-				if (len > 100) zoom = 5
+				// if (len > 100) zoom = 5
 				map.clearOverlays()
 				map.centerAndZoom(new BMap.Point(list[0].longitude, list[0].latitude), zoom)
 				map.addControl(new BMap.NavigationControl({ anchor: BMAP_ANCHOR_TOP_RIGHT, type: BMAP_NAVIGATION_CONTROL_SMALL }))
@@ -137,7 +138,7 @@
 		watch: {
 			prov: function(v) {
 				if (v.length) {
-					this.provId = v[0].id
+					this.provId = v[1].id
 				}
 			},
 			provId: function(v) {
